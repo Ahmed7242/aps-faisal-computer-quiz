@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs based Online Test | APS & C - Faisal</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #172033;
+      min-height: 100vh;
+      padding-bottom: 72px;
+    }
+    header {
+      background: #123b2c;
+      color: white;
+      padding: 22px 16px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 8px; font-size: 25px; }
+    header p { margin: 5px 0; }
+    .subject { color: #d9f99d; font-weight: bold; }
+    main {
+      width: min(680px, 92%);
+      margin: 28px auto;
+    }
+    .panel {
+      background: white;
+      padding: 26px;
+      border-radius: 14px;
+      box-shadow: 0 5px 22px #0f172a12;
+      margin-bottom: 20px;
+    }
+    h2 { margin-top: 0; color: #123b2c; }
+    label { display: block; margin: 14px 0 6px; font-weight: bold; }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 16px;
+      background: white;
+    }
+    button {
+      background: #176344;
+      color: white;
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+    button:hover { background: #104b32; }
+    button.secondary { background: #475569; }
+    .full { width: 100%; }
+    .notice {
+      background: #fff7d6;
+      border-left: 4px solid #d9a300;
+      padding: 12px;
+      border-radius: 6px;
+      line-height: 1.5;
+    }
+    .muted { color: #64748b; font-size: 14px; line-height: 1.5; }
+    .option {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .option input { width: auto; }
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .timer { color: #b42318; }
+    .progress {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    #progressBar { height: 100%; width: 0; background: #16a34a; }
+    .result-score { font-size: 30px; font-weight: bold; color: #176344; }
+    .hidden { display: none !important; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 10px 6px; border-bottom: 1px solid #e2e8f0; }
+    footer {
+      position: fixed;
+      z-index: 10;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #123b2c;
+      color: white;
+      text-align: center;
+      padding: 13px 8px;
+      font-size: 12px;
+    }
+    @media (max-width: 480px) {
+      header h1 { font-size: 20px; }
+      .panel { padding: 19px; }
+      main { margin-top: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Army Public School &amp; College - Faisal</h1>
+  <p class="subject">Computer Science | Class 9</p>
+  <p>MCQs based Online Test</p>
+</header>
+
+<main>
+  <section id="loginScreen" class="panel">
+    <h2>Student Login</h2>
+    <p>Welcome! Test shuru karne ke liye common student password enter karein.</p>
+    <form id="loginForm">
+      <label for="studentPassword">Common Password</label>
+      <input id="studentPassword" type="password" required
+             placeholder="Enter student password">
+      <button class="full" type="submit">Continue</button>
+    </form>
+    <p class="muted">
+      Note: Secure password verification backend connect hone ke baad activate hogi.
+    </p>
+  </section>
+
+  <section id="detailsScreen" class="panel hidden">
+    <h2>Student Details</h2>
+    <p>Apni details durust enter karein.</p>
+    <form id="detailsForm">
+      <label for="roll">Roll Number</label>
+      <input id="roll" required maxlength="30" placeholder="Enter roll number">
+
+      <label for="studentName">Student Name</label>
+      <input id="studentName" required maxlength="100" placeholder="Full name">
+
+      <label for="className">Class</label>
+      <select id="className" required>
+        <option value="9">Class 9</option>
+      </select>
+
+      <label for="section">Section</label>
+      <input id="section" required maxlength="20" placeholder="e.g. A, B, C">
+
+      <button class="full" type="submit">Verify Details</button>
+    </form>
+  </section>
+
+  <section id="instructionsScreen" class="panel hidden">
+    <h2>Test Instructions</h2>
+    <ul>
+      <li>Har MCQ ke 4 options honge.</li>
+      <li>Har question ke liye 60 seconds milenge.</li>
+      <li>Answer select karte hi agla question khul jayega.</li>
+      <li>Time khatam hone par agla question automatically khulega.</li>
+      <li>Har correct answer ke 0.5 marks hain.</li>
+      <li>Wrong aur unanswered questions par zero marks hain.</li>
+      <li>Answer select karne ke baad usay change nahi kiya ja sakega.</li>
+    </ul>
+    <div class="notice">
+      Yeh initial frontend preview hai. Real exam se pehle server-side
+      authentication, attempt restrictions aur database setup zaroori hai.
+    </div>
+    <h3>Confirm Your Details</h3>
+    <p id="confirmDetails"></p>
+    <button class="full" id="startButton">Start Test</button>
+  </section>
+
+  <section id="quizScreen" class="panel hidden">
+    <div class="topline">
+      <span id="questionCount">Question 1</span>
+      <span class="timer">Time: <span id="timeLeft">60</span>s</span>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+    <h2 id="questionText"></h2>
+    <div id="options"></div>
+    <p class="muted">Answer select karne par agla question automatically khulega.</p>
+  </section>
+
+  <section id="resultScreen" class="panel hidden">
+    <h2>Test Result</h2>
+    <p id="resultStudent"></p>
+    <p class="result-score" id="scoreText"></p>
+    <p id="percentageText"></p>
+    <div id="answerReview"></div>
+    <button class="full" onclick="window.print()">Print / Save as PDF</button>
+    <p class="muted">
+      PDF ke liye print window mein "Save as PDF" select karein.
+      Server par permanent result saving abhi connect nahi hai.
+    </p>
+  </section>
+</main>
+
+<footer>
+  Designed by: Waqas Ahmed Khan [Senior School Teacher] APS &amp; C - Faisal
+</footer>
+
+<script>
+  // FRONTEND PREVIEW ONLY.
+  // Do not use this version for a real examination before backend integration.
+
+  const $ = id => document.getElementById(id);
+  const screens = [
+    "loginScreen", "detailsScreen", "instructionsScreen",
+    "quizScreen", "resultScreen"
+  ];
+
+  function showScreen(id) {
+    screens.forEach(screen => $(screen).classList.toggle("hidden", screen !== id));
+    window.scrollTo(0, 0);
+  }
+
+  let student = {};
+  let currentQuestion = 0;
+  let timeLeft = 60;
+  let timerId = null;
+  let answers = [];
+
+  // Sample questions for checking the interface.
+  // Replace these with approved Class 9 questions during setup.
+  const questions = [
+    {
+      q: "Which component is often called the brain of a computer?",
+      options: ["CPU", "Monitor", "Keyboard", "Printer"],
+      correct: 0
+    },
+    {
+      q: "Which of the following is an input device?",
+      options: ["Monitor", "Keyboard", "Speaker", "Projector"],
+      correct: 1
+    },
+    {
+      q: "What does RAM stand for?",
+      options: [
+        "Read Access Memory",
+        "Random Access Memory",
+        "Run All Memory",
+        "Rapid Action Machine"
+      ],
+      correct: 1
+    }
+  ];
+
+  $("loginForm").addEventListener("submit", event => {
+    event.preventDefault();
+    // Preview only: this does not securely verify the password.
+    showScreen("detailsScreen");
+  });
+
+  $("detailsForm").addEventListener("submit", event => {
+    event.preventDefault();
+    student = {
+      roll: $("roll").value.trim(),
+      name: $("studentName").value.trim(),
+      className: $("className").value,
+      section: $("section").value.trim()
+    };
+
+    $("confirmDetails").textContent =
+      `${student.name} | Roll No: ${student.roll} | Class ${student.className} | Section ${student.section}`;
+
+    showScreen("instructionsScreen");
+  });
+
+  $("startButton").addEventListener("click", () => {
+    currentQuestion = 0;
+    answers = [];
+    showScreen("quizScreen");
+    renderQuestion();
+  });
+
+  function renderQuestion() {
+    clearInterval(timerId);
+
+    if (currentQuestion >= questions.length) {
+      finishTest();
+      return;
+    }
+
+    const item = questions[currentQuestion];
+    $("questionCount").textContent =
+      `Question ${currentQuestion + 1} of ${questions.length}`;
+    $("questionText").textContent = item.q;
+    $("progressBar").style.width =
+      `${(currentQuestion / questions.length) * 100}%`;
+
+    const optionsBox = $("options");
+    optionsBox.replaceChildren();
+
+    item.options.forEach((option, index) => {
+      const label = document.createElement("label");
+      label.className = "option";
+
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "answer";
+      radio.value = index;
+      radio.addEventListener("change", () => {
+        answers[currentQuestion] = index;
+        clearInterval(timerId);
+        currentQuestion++;
+        renderQuestion();
+      });
+
+      const text = document.createElement("span");
+      text.textContent = option;
+
+      label.append(radio, text);
+      optionsBox.appendChild(label);
+    });
+
+    timeLeft = 60;
+    $("timeLeft").textContent = timeLeft;
+
+    timerId = setInterval(() => {
+      timeLeft--;
+      $("timeLeft").textContent = timeLeft;
+
+      if (timeLeft <= 0) {
+        clearInterval(timerId);
+        answers[currentQuestion] = null;
+        currentQuestion++;
+        renderQuestion();
+      }
+    }, 1000);
+  }
+
+  function finishTest() {
+    clearInterval(timerId);
+
+    let correct = 0;
+    questions.forEach((q, i) => {
+      if (answers[i] === q.correct) correct++;
+    });
+
+    const marks = correct * 0.5;
+    const maxMarks = questions.length * 0.5;
+    const percentage = (marks / maxMarks) * 100;
+
+    $("resultStudent").textContent =
+      `${student.name} | Roll No: ${student.roll} | Class ${student.className} | Section ${student.section}`;
+
+    $("scoreText").textContent =
+      `${marks.toFixed(1)} / ${maxMarks.toFixed(1)} marks`;
+    $("percentageText").textContent =
+      `Correct: ${correct} | Wrong: ${answers.filter((a, i) => a !== null && a !== undefined && a !== questions[i].correct).length} | Unanswered: ${answers.filter(a => a === null || a === undefined).length} | Percentage: ${percentage.toFixed(1)}%`;
+
+    const review = document.createElement("table");
+    const heading = document.createElement("tr");
+    ["Question", "Your Answer", "Status"].forEach(text => {
+      const th = document.createElement("th");
+      th.textContent = text;
+      heading.appendChild(th);
+    });
+    review.appendChild(heading);
+
+    questions.forEach((q, i) => {
+      const tr = document.createElement("tr");
+      const status = answers[i] === null || answers[i] === undefined
+        ? "Unanswered"
+        : answers[i] === q.correct ? "Correct" : "Wrong";
+
+      [
+        `Q${i + 1}`,
+        answers[i] === null || answers[i] === undefined
+          ? "—" : q.options[answers[i]],
+        status
+      ].forEach(value => {
+        const td = document.createElement("td");
+        td.textContent = value;
+        tr.appendChild(td);
+      });
+      review.appendChild(tr);
+    });
+
+    $("answerReview").replaceChildren(review);
+    showScreen("resultScreen");
+  }
+</script>
+</body>
+</html>
